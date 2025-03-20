@@ -1,0 +1,109 @@
+{
+  "columns": {
+    "Social": [
+      {
+        "name": "Youtube",
+        "url": "https://youtube.com",
+        "icon": "TbBrandYoutube",
+        "color": "ff0000"
+      },
+      {
+        "name": "Reddit",
+        "url": "https://reddit.com",
+        "icon": "TbBrandReddit",
+        "color": "FF4500"
+      },
+      {
+        "name": "Tumblr",
+        "url": "https://tumblr.com",
+        "icon": "TbBrandTumblr",
+        "color": "34465D"
+      }
+    ],
+    "Coding": [
+      {
+        "name": "Github",
+        "url": "https://github.com",
+        "icon": "TbBrandGithub",
+        "color": "7d7d7d"
+      },
+      {
+        "name": "RealtimeColors",
+        "url": "https://www.realtimecolors.com/?colors=ebe9fc-010104-3a31d8-020024-0600c2&fonts=Inter-Inter",
+        "icon": "TbPalette",
+        "color": "999999"
+      },
+      {
+        "name": "Stackoverflow",
+        "url": "https://stackoverflow.com",
+        "icon": "TbBrandStackoverflow",
+        "color": "F47F24"
+      }
+    ],
+    "Misc": [
+      {
+        "name": "Gmail",
+        "url": "https://mail.google.com",
+        "icon": "TbMail",
+        "color": "d0f0f0"
+      },
+      {
+        "name": "Photopea",
+        "url": "https://photopea.com",
+        "icon": "TbPhotoEdit",
+        "color": "005500"
+      },
+      {
+        "name": "Manga",
+        "url": "https://ww4.readchainsawman.com",
+        "icon": "TbBook2",
+        "color": "9ff099"
+      }
+    ]
+  },
+  "terminal": {
+    "sites": [
+      {
+        "name": "youtube",
+        "url": "https://youtube.com",
+        "type": "site"
+      },
+      {
+        "name": "reddit",
+        "url": "https://reddit.com",
+        "type": "site"
+      },
+      {
+        "name": "tumblr",
+        "url": "https://tumblr.com",
+        "type": "site"
+      },
+      {
+        "name": "gmail",
+        "url": "https://mail.google.com",
+        "type": "site"
+      },
+      {
+        "name": "github",
+        "url": "https://github.com",
+        "type": "site"
+      },
+      {
+        "name": "instagram",
+        "url": "https://instagram.com",
+        "type": "site"
+      },
+      {
+        "name": "realtimecolors",
+        "url": "https://www.realtimecolors.com/?colors=ebe9fc-010104-3a31d8-020024-0600c2&fonts=Inter-Inter",
+        "type": "site"
+      },
+      {
+        "name": "manga",
+        "url": "https://ww4.readchainsawman.com",
+        "type": "site"
+      }
+    ],
+    "commands": ["ls", "help"]
+  }
+}
