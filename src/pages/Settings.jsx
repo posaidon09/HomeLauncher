@@ -10,7 +10,7 @@ export default function Settings() {
 		},
 		background: {
 			opacity: "0%",
-			transform: "translateY(-150px)",
+			transform: "translateY(-50px)",
 		},
 	});
 	const [bgValid, setBgValid] = useState(false);
@@ -44,7 +44,7 @@ export default function Settings() {
 	return (
 		<div className="min-h-screen overflow-auto flex flex-col gap-16 justify-center items-center">
 			<div
-				className="flex flex-col gap-5 mt-10 transition-all duration-500"
+				className="flex flex-col gap-5 mt-10 transition-all duration-500 ease-out"
 				style={anim.styles}
 			>
 				<span className="text-center text-3xl text-text-50">Home Style</span>
@@ -64,7 +64,7 @@ export default function Settings() {
 				</div>
 			</div>
 			<div
-				className="flex flex-col items-center justify-center gap-5 transition-all duration-700 mb-20"
+				className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150 mb-20"
 				style={anim.background}
 			>
 				<span className="text-center text-3xl text-text-50">

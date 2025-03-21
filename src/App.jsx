@@ -17,7 +17,10 @@ function App() {
 		return pages[page];
 	}
 	return (
-		<div className={`bg-cover`} style={{ backgroundImage: `url("${bg}")` }}>
+		<div
+			className={`bg-cover bg-black transition-all duration-300`}
+			style={{ backgroundImage: `url("${bg}")` }}
+		>
 			<div
 				className="absolute left-10 top-10 cursor-pointer transition-transform duration-300 hover:scale-110"
 				onClick={() => setPage(style)}

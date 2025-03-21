@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { context } from "../lib/Context";
 import sites from "./../assets/sites.json";
 
 export default function Terminal() {
 	const { setMessages, messages } = useContext(context);
 	const [suggestion, setSuggest] = useState("");
+	const inputRef = useRef(null);
 	const [cmd, setCmd] = useState("");
 	const [anim, setAnim] = useState({
-		transform: "translateY(-50px)",
+		transform: "translateY(-100px)",
 		opacity: "0%",
 	});
 
@@ -80,9 +81,12 @@ export default function Terminal() {
 	}, []);
 
 	return (
-		<div className="min-h-screen flex items-center justify-center">
+		<div
+			className="min-h-screen flex items-center justify-center"
+			onKeyDown={(event) => console.log(event)}
+		>
 			<form
-				className="bg-black/80 w-[1000px] min-h-[600px] max-h-[800px] rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500"
+				className="bg-black/80 w-[1000px] min-h-[600px] max-h-[800px] rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
 				onSubmit={(event) => handleSubmit(event)}
 				id="terminal"
 				style={anim}
@@ -102,6 +106,7 @@ export default function Terminal() {
 							className="bg-transparent outline-none w-[940px] h-min"
 							id="msg"
 							value={cmd}
+							ref={inputRef}
 							onChange={(event) => handleChange(event)}
 							onKeyDown={(event) => autoComplete(event)}
 						/>
