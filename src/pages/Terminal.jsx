@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { context } from "../lib/Context";
-import Icon from "../components/Icon.jsx";
 import sites from "./../assets/sites.json";
 
 export default function Terminal() {
-	const { setPage, setMessages, messages } = useContext(context);
+	const { setMessages, messages } = useContext(context);
 	const [suggestion, setSuggest] = useState("");
 	const [cmd, setCmd] = useState("");
+	const [anim, setAnim] = useState({
+		transform: "translateY(-50px)",
+		opacity: "0%",
+	});
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -46,7 +49,9 @@ export default function Terminal() {
 
 	function handleChange(e) {
 		e.preventDefault();
-		const commands = sites.terminal.sites.map((site) => site.name);
+		const commands = sites.terminal.sites
+			.map((site) => site.name)
+			.concat(sites.terminal.commands);
 		const input = e.target.value;
 		setCmd(input);
 		const matches = commands.map((command) => command.includes(input));
@@ -67,21 +72,20 @@ export default function Terminal() {
 		terminal.scrollTop = terminal.scrollHeight;
 	}, [messages, setMessages]);
 
+	useEffect(() => {
+		setAnim({
+			transform: "translateY(0px)",
+			opacity: "100%",
+		});
+	}, []);
+
 	return (
-		<div className="bg-[url('./assets/wind.png')] bg-cover min-h-screen flex items-center justify-center">
-			<div
-				className="absolute left-12 top-12 cursor-pointer"
-				onClick={() => setPage(0)}
-			>
-				<Icon
-					name={"TbHome"}
-					className={"scale-[400%] text-black rounded-xl"}
-				/>
-			</div>
+		<div className="min-h-screen flex items-center justify-center">
 			<form
-				className="bg-black/80 w-[1000px] min-h-[600px] max-h-[800px] rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden"
+				className="bg-black/80 w-[1000px] min-h-[600px] max-h-[800px] rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500"
 				onSubmit={(event) => handleSubmit(event)}
 				id="terminal"
+				style={anim}
 			>
 				<div className="flex flex-col gap-4">
 					{messages.map((msg, key) => {

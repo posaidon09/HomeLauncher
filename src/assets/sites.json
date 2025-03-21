@@ -104,6 +104,6 @@
         "type": "site"
       }
     ],
-    "commands": ["ls", "help"]
+    "commands": ["ls", "help", "clear"]
   }
 }
