@@ -66,10 +66,8 @@ export default function Terminal() {
 		let inputChars = input.split("");
 
 		suggestion.split("").forEach((char, index) => {
-			// Check if the current character exists in the input (even out of order)
 			if (inputChars.includes(char)) {
 				indexes.push(index);
-				// Remove the matched character from inputChars to prevent duplicate matches
 				inputChars.splice(inputChars.indexOf(char), 1);
 			}
 		});
@@ -122,9 +120,7 @@ export default function Terminal() {
 		});
 		const handleGlobalKeybinds = (e) => handleKeybinds(e);
 		document.addEventListener("keydown", handleGlobalKeybinds);
-		return () => {
-			document.removeEventListener("keydown", handleGlobalKeybinds);
-		};
+		return document.removeEventListener("keydown", handleGlobalKeybinds);
 	}, []);
 
 	return (
@@ -133,7 +129,7 @@ export default function Terminal() {
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
 			<form
-				className="bg-black/80 w-[1000px] min-h-[600px] max-h-[800px] border-[3px] border-gray-600 rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
+				className="bg-black/80 w-[1500px] min-h-[900px] max-h-[800px] border-[3px] border-gray-600 rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
 				onSubmit={(event) => handleSubmit(event)}
 				id="terminal"
 				style={anim}
