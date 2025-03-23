@@ -5,7 +5,7 @@
         "name": "Youtube",
         "url": "https://youtube.com",
         "icon": "TbBrandYoutube",
-        "color": "ff0000"
+        "color": "FF0000"
       },
       {
         "name": "Reddit",
@@ -25,7 +25,7 @@
         "name": "Github",
         "url": "https://github.com",
         "icon": "TbBrandGithub",
-        "color": "7d7d7d"
+        "color": "7D7D7D"
       },
       {
         "name": "RealtimeColors",
@@ -45,7 +45,7 @@
         "name": "Gmail",
         "url": "https://mail.google.com",
         "icon": "TbMail",
-        "color": "d0f0f0"
+        "color": "D0F0F0"
       },
       {
         "name": "Photopea",
@@ -57,7 +57,7 @@
         "name": "Manga",
         "url": "https://ww4.readchainsawman.com",
         "icon": "TbBook2",
-        "color": "9ff099"
+        "color": "9FF099"
       }
     ]
   },
@@ -104,6 +104,6 @@
         "type": "site"
       }
     ],
-    "commands": ["ls", "help", "clear"]
+    "commands": ["ls", "help", "clear", "google"]
   }
 }
