@@ -5,7 +5,7 @@ import "./../App.css";
 
 export default function Terminal() {
 	const { setMessages, messages } = useContext(context);
-	const [suggestion, setSuggest] = useState("");
+	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
 	const [cmd, setCmd] = useState("");
@@ -24,20 +24,28 @@ export default function Terminal() {
 		let output;
 
 		switch (command) {
-			case "clear": {
+			case "clear":
+			case "clr": {
 				setMessages([]);
 				break;
 			}
 			case "ls":
 			case "help": {
-				output = commands.join(", ");
+				output = commands
+					.concat(sites.terminal.commands.map((command) => command.name))
+					.join(", ");
 				break;
 			}
-			case "google": {
+			case "google":
+			case "g": {
 				window.open(
 					`https://www.google.com/search?q=${args.join("+")}`,
 					"_blank",
 				);
+				break;
+			}
+			case "math":
+			case "calc": {
 				break;
 			}
 			default: {
@@ -75,22 +83,51 @@ export default function Terminal() {
 		return { indexes };
 	}
 
+	async function autoCompleteQuery(query) {
+		const response = await fetch(
+			`http://localhost:3003/google?q=${encodeURIComponent(query)}`,
+		);
+		const data = await response.json();
+		return data[0];
+	}
+
+	async function handleCommand(command, args) {
+		if (!args.length) return;
+		switch (command) {
+			case "google":
+				return await autoCompleteQuery(args.join(" "));
+			default:
+				return "Unknown command";
+		}
+	}
+
 	function handleChange(e) {
 		e.preventDefault();
-		const commands = sites.terminal.sites
+		const actions = sites.terminal.commands;
+		const websites = sites.terminal.sites;
+		const commands = websites
 			.map((site) => site.name)
-			.concat(sites.terminal.commands);
+			.concat(actions.map((action) => action.name))
+			.concat(actions.map((action) => action.alias));
+		const text = e.target.value.trim().split(" ");
 		const input = e.target.value;
+		const command = text.shift();
+		const args = text;
 		setCmd(input);
-		const matches = commands.map((command) => command.includes(input));
-		if (!matches.includes(true)) return;
-		setSuggest(() => {
-			const newSuggestion = commands[matches.indexOf(true)];
-			setIntersect(intersect(input, newSuggestion));
-			return newSuggestion;
-		});
-
-		if (input === "") setSuggest("");
+		if (actions.map((action) => action.name).includes(command)) {
+			handleCommand(command, args).then((res) => {
+				setSuggest({ type: "command", value: res });
+			});
+		} else {
+			const matches = commands.map((action) => action.includes(command));
+			if (!matches.includes(true)) return;
+			setSuggest(() => {
+				const newSuggestion = commands[matches.indexOf(true)];
+				setIntersect(intersect(command, newSuggestion));
+				return { type: "site", value: newSuggestion };
+			});
+		}
+		if (input == "") setSuggest({ type: "site", value: "" });
 	}
 
 	function handleKeybinds(e) {
@@ -103,8 +140,10 @@ export default function Terminal() {
 	function handleAutocomplete(e) {
 		if (e.key == "Tab") {
 			e.preventDefault();
-			setCmd(suggestion);
-			setIntersect(intersect(suggestion, suggestion));
+			if (suggestion.type == "site") setCmd(suggestion.value);
+			else if (suggestion.type == "command")
+				setCmd(`${cmd.split(" ")[0]} ${suggestion.value}`);
+			setIntersect(intersect(suggestion.value, suggestion.value));
 		}
 	}
 
@@ -120,7 +159,10 @@ export default function Terminal() {
 		});
 		const handleGlobalKeybinds = (e) => handleKeybinds(e);
 		document.addEventListener("keydown", handleGlobalKeybinds);
-		return document.removeEventListener("keydown", handleGlobalKeybinds);
+		inputRef.current.focus();
+		return () => {
+			document.removeEventListener("keydown", handleGlobalKeybinds);
+		};
 	}, []);
 
 	return (
@@ -129,7 +171,7 @@ export default function Terminal() {
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
 			<form
-				className="bg-black/80 w-[1500px] min-h-[900px] max-h-[800px] border-[3px] border-gray-600 rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
+				className="bg-black/80 w-[1000px] min-h-[700px] max-h-[800px] border-[3px] border-gray-600 rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
 				onSubmit={(event) => handleSubmit(event)}
 				id="terminal"
 				style={anim}
@@ -156,17 +198,29 @@ export default function Terminal() {
 					</div>
 
 					<div className="mb-32 flex flex-row">
-						{suggestion.split("").map((value, key) => (
+						{suggestion.type == "site" ? (
+							suggestion.value.split("").map((value, key) => (
+								<p
+									style={{
+										color: intersection.indexes.includes(key)
+											? "white"
+											: "gray",
+										fontWeight: intersection.indexes.includes(key) ? 700 : 0,
+									}}
+									key={key}
+								>
+									{value}
+								</p>
+							))
+						) : (
 							<p
 								style={{
-									color: intersection.indexes.includes(key) ? "white" : "gray",
-									fontWeight: intersection.indexes.includes(key) ? 700 : 0,
+									color: "white",
 								}}
-								key={key}
 							>
-								{value}
+								{suggestion.value}
 							</p>
-						))}
+						)}
 					</div>
 				</div>
 			</form>
