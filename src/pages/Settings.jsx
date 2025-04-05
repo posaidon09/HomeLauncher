@@ -23,7 +23,7 @@ export default function Settings() {
 				setBg(background);
 				setBgValid(true);
 			} else return setBgValid(false);
-		} catch (_) {
+		} catch {
 			return setBgValid(false);
 		}
 	}
@@ -50,13 +50,13 @@ export default function Settings() {
 				<span className="text-center text-3xl text-text-50">Home Style</span>
 				<div className="flex flex-row gap-10">
 					<img
-						src="./src/assets/terminal.png"
+						src="terminal.png"
 						className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
 						style={{ borderColor: style == 1 ? "green" : "#4845ed" }}
 						onClick={() => setStyle(1)}
 					/>
 					<img
-						src="./src/assets/columns.png"
+						src="columns.png"
 						className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
 						style={{ borderColor: style == 0 ? "green" : "#4845ed" }}
 						onClick={() => setStyle(0)}

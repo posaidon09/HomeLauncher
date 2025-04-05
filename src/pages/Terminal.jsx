@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { context } from "../lib/Context";
 import sites from "./../assets/sites.json";
 import "./../App.css";
+import { evaluate } from "mathjs";
 
 export default function Terminal() {
 	const { setMessages, messages } = useContext(context);
@@ -38,21 +39,23 @@ export default function Terminal() {
 			}
 			case "google":
 			case "g": {
-				window.open(
-					`https://www.google.com/search?q=${args.join("+")}`,
-					"_blank",
-				);
+				location.href = `https://www.google.com/search?q=${args.join("+")}`;
 				break;
 			}
 			case "math":
 			case "calc": {
+				try {
+					output = evaluate(args.join(" "));
+				} catch {
+					output = "incorrect expression. try again";
+				}
 				break;
 			}
 			default: {
 				const url = urls[commands.indexOf(command)];
 				if (urls.includes(url)) {
 					output = `Opening ${url}`;
-					window.open(url, "_blank");
+					location.href = url;
 				} else {
 					output = "Unknown command.";
 				}
@@ -95,9 +98,10 @@ export default function Terminal() {
 		if (!args.length) return;
 		switch (command) {
 			case "google":
+			case "g":
 				return await autoCompleteQuery(args.join(" "));
 			default:
-				return "Unknown command";
+				return;
 		}
 	}
 
@@ -108,16 +112,29 @@ export default function Terminal() {
 		const commands = websites
 			.map((site) => site.name)
 			.concat(actions.map((action) => action.name))
-			.concat(actions.map((action) => action.alias));
-		const text = e.target.value.trim().split(" ");
+			.concat(actions.map((action) => action.alias))
+			.sort((a, b) => a.length - b.length);
+		const text = e.target.value.split(" ");
 		const input = e.target.value;
 		const command = text.shift();
 		const args = text;
 		setCmd(input);
-		if (actions.map((action) => action.name).includes(command)) {
-			handleCommand(command, args).then((res) => {
-				setSuggest({ type: "command", value: res });
-			});
+		if (
+			actions
+				.map((action) => action.name)
+				.concat(actions.map((action) => action.alias))
+				.includes(command)
+		) {
+			if (input.split(" ").length > 1) {
+				handleCommand(command, args).then((res) => {
+					setSuggest({ type: "command", value: res });
+				});
+			} else {
+				const tooltip = sites.terminal.commands.find(
+					(action) => action.name === command || action.alias === command,
+				).description;
+				setSuggest({ type: "command", value: tooltip });
+			}
 		} else {
 			const matches = commands.map((action) => action.includes(command));
 			if (!matches.includes(true)) return;
@@ -134,6 +151,9 @@ export default function Terminal() {
 		if (e.ctrlKey && e.key == "k") {
 			e.preventDefault();
 			inputRef.current.focus();
+		} else if (e.key == "ArrowUp") {
+			e.preventDefault();
+			setCmd(messages[messages.length - 1].command.replace(">", ""));
 		}
 	}
 
@@ -163,7 +183,7 @@ export default function Terminal() {
 		return () => {
 			document.removeEventListener("keydown", handleGlobalKeybinds);
 		};
-	}, []);
+	}, [messages]);
 
 	return (
 		<div
