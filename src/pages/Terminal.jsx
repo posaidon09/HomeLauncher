@@ -14,7 +14,14 @@ export default function Terminal() {
 		opacity: "0%",
 	});
 
-	function handleSubmit(e) {
+	async function test() {
+		const response = await fetch(`http://localhost:3004/test`);
+		const data = await response.json();
+		console.log(data);
+		return data;
+	}
+
+	async function handleSubmit(e) {
 		e.preventDefault();
 		const input = e.target.msg.value.trim().split(" ");
 		const command = input.shift();
@@ -66,6 +73,10 @@ export default function Terminal() {
 			case "visit":
 			case "goto": {
 				location.href = args[0];
+				break;
+			}
+			case "test": {
+				output = await test();
 				break;
 			}
 			default: {
