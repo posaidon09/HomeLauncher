@@ -55,12 +55,17 @@ export default function Settings() {
 						style={{ borderColor: style == 1 ? "green" : "#4845ed" }}
 						onClick={() => setStyle(1)}
 					/>
-					<img
-						src="columns.png"
-						className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
-						style={{ borderColor: style == 0 ? "green" : "#4845ed" }}
-						onClick={() => setStyle(0)}
-					/>
+					<div className="flex flex-col justify-center items-center">
+						<img
+							src="columns.png"
+							className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
+							style={{ borderColor: style == 0 ? "green" : "#4845ed" }}
+							onClick={() => setStyle(0)}
+						/>
+						<span className="text-red-400 font-bold text-center">
+							deprecated
+						</span>
+					</div>
 				</div>
 			</div>
 			<div
