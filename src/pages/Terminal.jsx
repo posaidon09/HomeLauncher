@@ -1,11 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { context } from "../lib/Context";
-import sites from "./../assets/sites.json";
 import "./../App.css";
 import { evaluate } from "mathjs";
 
 export default function Terminal() {
-	const { setMessages, messages } = useContext(context);
+	const { setMessages, messages, sites, setSites } = useContext(context);
 	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
@@ -49,6 +48,24 @@ export default function Terminal() {
 				} catch {
 					output = "incorrect expression. try again";
 				}
+				break;
+			}
+			case "create":
+			case "cmd": {
+				const name = args[0];
+				const url = args[1];
+				setSites((prev) => ({
+					...prev,
+					terminal: {
+						...prev.terminal,
+						sites: [...prev.terminal.sites, { name, url }],
+					},
+				}));
+				break;
+			}
+			case "visit":
+			case "goto": {
+				location.href = args[0];
 				break;
 			}
 			default: {

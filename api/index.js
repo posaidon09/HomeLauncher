@@ -1,8 +1,18 @@
 import express from "express";
 import axios from "axios";
 import cors from "cors";
+import Josh from "@joshdb/core";
+import provider from "@joshdb/json";
+
+const db = new Josh({
+  name: "launcher",
+  provider,
+});
+
+db.set("test", "test");
+
 const app = express();
-app.use(cors()); // Allow all origins
+app.use(cors());
 
 app.get("/google", async (req, res) => {
   try {
@@ -19,10 +29,15 @@ app.get("/google", async (req, res) => {
       },
     );
 
-    res.json(response.data[1]);
+    res.status(200).json(response.data[1]);
   } catch {
     res.status(500).json({ error: "Failed to fetch suggestions" });
   }
+});
+
+app.get("/test", async (req, res) => {
+  const testing = await db.get("test");
+  res.status(200).json(testing);
 });
 
 app.listen(3003, () => console.log("Proxy server running on port 3003"));
