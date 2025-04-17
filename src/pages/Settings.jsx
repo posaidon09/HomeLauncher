@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { context } from "../lib/Context";
 
 export default function Settings() {
-	const { bg, setBg, style, setStyle } = useContext(context);
+	const { bg, setBg, style, setStyle, newTab, setNewTab } = useContext(context);
 	const [anim, setAnim] = useState({
 		styles: {
 			opacity: "0%",
@@ -18,11 +18,9 @@ export default function Settings() {
 	function handleChange(e) {
 		const background = e.target.value;
 		try {
-			const url = new URL(background);
-			if (background.includes(".")) {
-				setBg(background);
-				setBgValid(true);
-			} else return setBgValid(false);
+			new URL(background);
+			setBg(background);
+			setBgValid(true);
 		} catch {
 			return setBgValid(false);
 		}
@@ -42,7 +40,7 @@ export default function Settings() {
 	}, []);
 
 	return (
-		<div className="min-h-screen overflow-auto flex flex-col gap-16 justify-center items-center">
+		<div className="min-h-screen overflow-auto flex flex-col gap-16 justify-center items-center pb-52">
 			<div
 				className="flex flex-col gap-5 mt-10 transition-all duration-500 ease-out"
 				style={anim.styles}
@@ -86,6 +84,27 @@ export default function Settings() {
 					className="rounded-xl focus:outline-none bg-black text-text-50 p-2 border-2 transition-colors duration-300"
 					style={{ borderColor: bgValid ? "#34eb37" : "#494a49" }}
 				/>
+			</div>
+			<div className="flex flex-col items-center justify-center gap-5">
+				<span className="text-center text-3xl text-text-50 mb-10">
+					Url Destination
+				</span>
+				<div className="flex flex-row gap-20">
+					<div
+						className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+						style={{ borderColor: newTab == "_self" ? "green" : "#4845ed" }}
+						onClick={() => setNewTab("_self")}
+					>
+						Current tab
+					</div>
+					<div
+						className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+						style={{ borderColor: newTab == "_blank" ? "green" : "#4845ed" }}
+						onClick={() => setNewTab("_blank")}
+					>
+						New tab
+					</div>
+				</div>
 			</div>
 		</div>
 	);

@@ -4,7 +4,8 @@ import "./../App.css";
 import { evaluate } from "mathjs";
 
 export default function Terminal() {
-	const { setMessages, messages, sites, setSites } = useContext(context);
+	const { setMessages, messages, sites, setSites, newTab } =
+		useContext(context);
 	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
@@ -38,7 +39,10 @@ export default function Terminal() {
 			}
 			case "google":
 			case "g": {
-				location.href = `https://www.google.com/search?q=${args.join("+")}`;
+				window.open(
+					`https://www.google.com/search?q=${args.join("+")}`,
+					newTab,
+				);
 				break;
 			}
 			case "math":
@@ -72,7 +76,7 @@ export default function Terminal() {
 				const url = urls[commands.indexOf(command)];
 				if (urls.includes(url)) {
 					output = `Opening ${url}`;
-					location.href = url;
+					window.open(url, newTab);
 				} else {
 					output = "Unknown command.";
 				}

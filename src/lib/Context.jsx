@@ -8,6 +8,7 @@ export const ContextProvider = ({ children }) => {
 	const [bg, setBg] = useLocalStorage("bg", "wind.png");
 	const [style, setStyle] = useLocalStorage("style", 1);
 	const [sites, setSites] = useLocalStorage("commands", commands);
+	const [newTab, setNewTab] = useLocalStorage("newtabs", "_self");
 	return (
 		<context.Provider
 			value={{
@@ -21,6 +22,8 @@ export const ContextProvider = ({ children }) => {
 				setStyle,
 				sites,
 				setSites,
+				newTab,
+				setNewTab,
 			}}
 		>
 			{children}
