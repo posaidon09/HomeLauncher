@@ -3,7 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import commands from "./../assets/sites.json";
 export const context = createContext();
 export const ContextProvider = ({ children }) => {
-	const [page, setPage] = useLocalStorage("page", 0);
+	const [page, setPage] = useLocalStorage("page", 1);
 	const [messages, setMessages] = useState([]);
 	const [bg, setBg] = useLocalStorage("bg", "wind.png");
 	const [style, setStyle] = useLocalStorage("style", 1);
