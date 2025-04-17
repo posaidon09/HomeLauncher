@@ -14,13 +14,6 @@ export default function Terminal() {
 		opacity: "0%",
 	});
 
-	async function test() {
-		const response = await fetch(`http://localhost:3004/test`);
-		const data = await response.json();
-		console.log(data);
-		return data;
-	}
-
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const input = e.target.msg.value.trim().split(" ");
@@ -75,10 +68,6 @@ export default function Terminal() {
 				location.href = args[0];
 				break;
 			}
-			case "test": {
-				output = await test();
-				break;
-			}
 			default: {
 				const url = urls[commands.indexOf(command)];
 				if (urls.includes(url)) {
@@ -115,9 +104,7 @@ export default function Terminal() {
 	}
 
 	async function autoCompleteQuery(query) {
-		const response = await fetch(
-			`http://localhost:3003/google?q=${encodeURIComponent(query)}`,
-		);
+		const response = await fetch(`/google?q=${encodeURIComponent(query)}`);
 		const data = await response.json();
 		return data[0];
 	}
@@ -211,67 +198,64 @@ export default function Terminal() {
 		return () => {
 			document.removeEventListener("keydown", handleGlobalKeybinds);
 		};
-	}, [messages]);
+	}, []);
 
 	return (
 		<div
 			className="min-h-screen flex items-center justify-center"
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
-			<form
-				className="bg-black/80 w-[1000px] min-h-[700px] max-h-[800px] border-[3px] border-gray-600 rounded-xl p-8 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden transition-all duration-500 ease-out"
-				onSubmit={(event) => handleSubmit(event)}
-				id="terminal"
+			<div
+				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] rounded-xl transition-all duration-500 ease-out"
 				style={anim}
 			>
-				<div className="flex flex-col gap-4">
-					{messages.map((msg, key) => {
-						return (
+				<form
+					className="bg-black w-[1000px] min-h-[700px] max-h-[800px] rounded-xl p-4 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden"
+					onSubmit={(event) => handleSubmit(event)}
+					id="terminal"
+				>
+					<div className="flex flex-col gap-4 w-full">
+						{messages.map((msg, key) => (
 							<div key={key} className="flex flex-col">
 								<p className="text-gray-500">{msg.command}</p>
 								<p>{msg.output}</p>
 							</div>
-						);
-					})}
-					<div className="flex flex-row">
-						{">"}
-						<input
-							className="bg-transparent outline-none w-[940px] h-min"
-							id="msg"
-							value={cmd}
-							ref={inputRef}
-							onChange={(event) => handleChange(event)}
-							onKeyDown={(event) => handleAutocomplete(event)}
-						/>
-					</div>
+						))}
 
-					<div className="mb-32 flex flex-row">
-						{suggestion.type == "site" ? (
-							suggestion.value.split("").map((value, key) => (
-								<p
-									style={{
-										color: intersection.indexes.includes(key)
-											? "white"
-											: "gray",
-										fontWeight: intersection.indexes.includes(key) ? 700 : 0,
-									}}
-									key={key}
-								>
-									{value}
-								</p>
-							))
-						) : (
-							<p
-								style={{
-									color: "white",
-								}}
-							>
-								{suggestion.value}
-							</p>
-						)}
+						<div className="flex flex-row items-center">
+							<span className="mr-2">{">"}</span>
+							<input
+								className="bg-transparent outline-none w-full h-min"
+								id="msg"
+								value={cmd}
+								ref={inputRef}
+								onChange={(event) => handleChange(event)}
+								onKeyDown={(event) => handleAutocomplete(event)}
+							/>
+						</div>
+
+						<div className="mb-32 flex flex-row flex-wrap">
+							{suggestion.type === "site" ? (
+								suggestion.value.split("").map((value, key) => (
+									<p
+										style={{
+											color: intersection.indexes.includes(key)
+												? "white"
+												: "gray",
+											fontWeight: intersection.indexes.includes(key) ? 700 : 0,
+										}}
+										key={key}
+									>
+										{value}
+									</p>
+								))
+							) : (
+								<p className="text-white">{suggestion.value}</p>
+							)}
+						</div>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	);
 }

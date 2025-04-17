@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/google", "destination": "/api/google.js" },
+    { "source": "/test", "destination": "/api/test.js" }
+  ]
+}

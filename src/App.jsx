@@ -7,7 +7,7 @@ import Settings from "./pages/Settings.jsx";
 import Icon from "./components/Icon.jsx";
 
 function App() {
-	const { page, setPage, bg, style, setBg } = useContext(context);
+	const { page, setPage, bg, style } = useContext(context);
 	function getPage() {
 		const pages = [
 			<Columns key={0} />,

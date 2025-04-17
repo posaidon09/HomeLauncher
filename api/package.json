@@ -9,8 +9,6 @@
   "license": "ISC",
   "packageManager": "pnpm@10.7.1",
   "dependencies": {
-    "@joshdb/core": "^1.2.7",
-    "@joshdb/json": "^1.0.5",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   }
