@@ -66,43 +66,45 @@ export default function Settings() {
 					</div>
 				</div>
 			</div>
-			<div
-				className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150 mb-20"
-				style={anim.background}
-			>
-				<span className="text-center text-3xl text-text-50">
-					Home Background
-				</span>
-				<img
-					src={bg}
-					className="w-[500px] h-[300px] rounded-xl border-[6px] border-accent-700"
-				/>
-				<input
-					id="img"
-					placeholder="Background URL"
-					onChange={(event) => handleChange(event)}
-					className="rounded-xl focus:outline-none bg-black text-text-50 p-2 border-2 transition-colors duration-300"
-					style={{ borderColor: bgValid ? "#34eb37" : "#494a49" }}
-				/>
-			</div>
-			<div className="flex flex-col items-center justify-center gap-5">
-				<span className="text-center text-3xl text-text-50 mb-10">
-					Url Destination
-				</span>
-				<div className="flex flex-row gap-20">
-					<div
-						className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
-						style={{ borderColor: newTab == "_self" ? "green" : "#4845ed" }}
-						onClick={() => setNewTab("_self")}
-					>
-						Current tab
-					</div>
-					<div
-						className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
-						style={{ borderColor: newTab == "_blank" ? "green" : "#4845ed" }}
-						onClick={() => setNewTab("_blank")}
-					>
-						New tab
+			<div className="flex flex-row gap-20">
+				<div
+					className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150 mb-20"
+					style={anim.background}
+				>
+					<span className="text-center text-3xl text-text-50">
+						Home Background
+					</span>
+					<img
+						src={bg}
+						className="w-[500px] h-[300px] rounded-xl border-[6px] border-accent-700"
+					/>
+					<input
+						id="img"
+						placeholder="Background URL"
+						onChange={(event) => handleChange(event)}
+						className="rounded-xl focus:outline-none bg-black text-text-50 p-2 border-2 transition-colors duration-300"
+						style={{ borderColor: bgValid ? "#34eb37" : "#494a49" }}
+					/>
+				</div>
+				<div className="flex flex-col items-center justify-center gap-5">
+					<span className="text-center text-3xl text-text-50 mb-10 -mt-20">
+						Url Destination
+					</span>
+					<div className="flex flex-row gap-20">
+						<div
+							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+							style={{ borderColor: newTab == "_self" ? "green" : "#4845ed" }}
+							onClick={() => setNewTab("_self")}
+						>
+							Current tab
+						</div>
+						<div
+							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+							style={{ borderColor: newTab == "_blank" ? "green" : "#4845ed" }}
+							onClick={() => setNewTab("_blank")}
+						>
+							New tab
+						</div>
 					</div>
 				</div>
 			</div>
