@@ -1,6 +1,7 @@
-import pb from "./../index.js";
 import sites from "./../sites.js";
+import PocketBase from "pocketbase";
 
+const pb = new PocketBase("https://posaidon.pockethost.io");
 export default async function handler(req, res) {
   try {
     const newEntry = await pb.collection("settings").create({
