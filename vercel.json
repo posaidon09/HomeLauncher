@@ -1,6 +1,9 @@
 {
   "rewrites": [
     { "source": "/google", "destination": "/api/routes/google.js" },
-    { "source": "/test", "destination": "/api/routes/test.js" }
+    { "source": "/math", "destination": "/api/routes/math.js" },
+    { "source": "/currency", "destination": "/api/routes/currency.js" },
+    { "source": "/register", "destination": "/api/routes/register.js" },
+    { "source": "/settings", "destination": "/api/routes/settings.js" }
   ]
 }
