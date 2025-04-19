@@ -6,6 +6,9 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   const id = req.query.id;
+  if (req.method === "OPTIONS") {
+    return res.status(200).end(); // Just send OK for OPTIONS
+  }
   // POST METHOD
   if (req.method == "POST") {
     const key = req.query.k;
