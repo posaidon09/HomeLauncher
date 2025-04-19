@@ -1,5 +1,5 @@
 import "./App.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Columns from "./pages/Columns.jsx";
 import Terminal from "./pages/Terminal.jsx";
 import { context } from "./lib/Context.jsx";
@@ -8,7 +8,9 @@ import Icon from "./components/Icon.jsx";
 import axios from "axios";
 
 function App() {
-	const { page, setPage, bg, style, setId, id } = useContext(context);
+	const { page, setPage, setId, id, setSettings, settings, api } =
+		useContext(context);
+	const [loaded, setLoaded] = useState(false);
 	function getPage() {
 		const pages = [
 			<Columns key={0} />,
@@ -19,10 +21,20 @@ function App() {
 	}
 
 	useEffect(() => {
+		if (loaded) return;
+		setLoaded(true);
 		(async () => {
 			if (id == null) {
-				const res = await axios.post("/register");
+				const res = await axios.post(`${api}/register`);
 				setId(res.data.id);
+			} else {
+				const res = await axios.get(`${api}/settings`, {
+					params: {
+						id,
+					},
+				});
+				console.log(res.data.settings);
+				setSettings(res.data.settings);
 			}
 		})();
 	}, []);
@@ -30,11 +42,11 @@ function App() {
 	return (
 		<div
 			className={`bg-cover bg-black transition-all duration-300`}
-			style={{ backgroundImage: `url("${bg}")` }}
+			style={{ backgroundImage: `url("${settings?.background}")` }}
 		>
 			<div
 				className="absolute left-10 top-10 cursor-pointer transition-transform duration-300 hover:scale-110"
-				onClick={() => setPage(style)}
+				onClick={() => setPage(settings?.style)}
 			>
 				<Icon name={"TbHome"} className={"text-gray-300 scale-[250%] "} />
 			</div>

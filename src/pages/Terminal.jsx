@@ -4,8 +4,8 @@ import "./../App.css";
 import { evaluate } from "mathjs";
 
 export default function Terminal() {
-	const { setMessages, messages, sites, setSites, newTab } =
-		useContext(context);
+	const { setMessages, messages, settings, api } = useContext(context);
+	const sites = settings;
 	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
@@ -44,7 +44,7 @@ export default function Terminal() {
 			case "g": {
 				window.open(
 					`https://www.google.com/search?q=${args.join("+")}`,
-					newTab,
+					settings.urlTarget,
 				);
 				break;
 			}
@@ -57,7 +57,7 @@ export default function Terminal() {
 				}
 				break;
 			}
-			case "create":
+			/*case "create":
 			case "cmd": {
 				const name = args[0];
 				const url = args[1];
@@ -90,7 +90,7 @@ export default function Terminal() {
 						output = `Removed ${args[0]} from website list`;
 					}
 				}
-				break;
+				break;*/
 			case "visit":
 			case "goto": {
 				location.href = args[0];
@@ -100,7 +100,7 @@ export default function Terminal() {
 				const url = urls[commands.indexOf(command)];
 				if (urls.includes(url)) {
 					output = `Opening ${url}`;
-					window.open(url, newTab);
+					window.open(url, settings.urlTarget);
 				} else {
 					output = "Unknown command.";
 				}
@@ -132,7 +132,9 @@ export default function Terminal() {
 	}
 
 	async function autoCompleteQuery(query) {
-		const response = await fetch(`/google?q=${encodeURIComponent(query)}`);
+		const response = await fetch(
+			`${api}/google?q=${encodeURIComponent(query)}`,
+		);
 		const data = await response.json();
 		return data[0];
 	}

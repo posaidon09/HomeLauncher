@@ -1,15 +1,32 @@
 import { createContext, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import commands from "./../assets/sites.json";
+import axios from "axios";
+import { useEffect } from "react";
 export const context = createContext();
 export const ContextProvider = ({ children }) => {
-	const [style, setStyle] = useLocalStorage("style", 1);
-	const [page, setPage] = useState(style);
+	const api = "https://home-launcher.vercel.app";
 	const [messages, setMessages] = useState([]);
-	const [bg, setBg] = useLocalStorage("bg", "wind.png");
-	const [sites, setSites] = useLocalStorage("commands", commands);
-	const [newTab, setNewTab] = useLocalStorage("newtabs", "_self");
+	const [settings, setSettings] = useLocalStorage("settings", null);
+	const [page, setPage] = useState(1);
+	useEffect(() => {
+		if (settings?.style) {
+			setPage(settings.style);
+		}
+	}, [settings]);
 	const [id, setId] = useLocalStorage("id", null);
+	const set = async (key, value) => {
+		await axios.post("/settings", {
+			id,
+			k: key,
+			v: value,
+		});
+		const res = await axios.get(`${api}/settings`, {
+			params: {
+				id,
+			},
+		});
+		setSettings(res.data);
+	};
 	return (
 		<context.Provider
 			value={{
@@ -17,16 +34,12 @@ export const ContextProvider = ({ children }) => {
 				setPage,
 				messages,
 				setMessages,
-				bg,
-				setBg,
-				style,
-				setStyle,
-				sites,
-				setSites,
-				newTab,
-				setNewTab,
 				id,
 				setId,
+				settings,
+				setSettings,
+				set,
+				api,
 			}}
 		>
 			{children}
