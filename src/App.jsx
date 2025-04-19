@@ -21,7 +21,7 @@ function App() {
 	useEffect(() => {
 		(async () => {
 			if (id == null) {
-				const res = await axios.get("/register");
+				const res = await axios.post("/register");
 				setId(res.data.id);
 			}
 		})();
