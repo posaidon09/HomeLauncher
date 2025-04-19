@@ -2,20 +2,20 @@ import PocketBase from "pocketbase";
 const pb = new PocketBase("https://posaidon.pockethost.io");
 
 export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   try {
     if (req.method !== "POST")
       return res.status(405).json({ message: "not allowed" });
     const r = await fetch("https://home-launcher.vercel.app/sites.json");
     const sites = await r.json();
-    console.log(sites);
     const newEntry = await pb.collection("settings").create({
-      settings: {
-        style: 1,
-        bg: "wind.png",
-        newTab: "_self",
-        columns: sites.columns,
-        terminal: sites.terminal,
-      },
+      style: 1,
+      bg: await fetch("https://home-launcher.vercel.app/store.png"),
+      newTab: "_self",
+      columns: sites.columns,
+      terminal: sites.terminal,
     });
     return res
       .status(200)

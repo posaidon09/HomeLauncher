@@ -128,8 +128,8 @@
         "args": "<command name> <url>"
       },
       {
-        "name": "visit",
-        "alias": "goto",
+        "name": "goto",
+        "alias": "cd",
         "description": "opens the given url",
         "args": "<url>"
       },
