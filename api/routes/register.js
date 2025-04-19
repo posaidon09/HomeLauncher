@@ -1,9 +1,10 @@
-import sites from "./../sites.js";
 import PocketBase from "pocketbase";
-
 const pb = new PocketBase("https://posaidon.pockethost.io");
+
 export default async function handler(req, res) {
   try {
+    const r = await fetch("https://home-launcher.vercel.app/sites.json");
+    const sites = await r.json();
     const newEntry = await pb.collection("settings").create({
       style: 1,
       bg: "wind.png",
