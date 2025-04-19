@@ -1,5 +1,5 @@
 import pb from "./../index.js";
-import sites from "./../sites.json";
+import sites from "./../sites.json" assert { type: "json" };
 
 export default async function handler(req, res) {
   try {
