@@ -28,14 +28,8 @@ export default function Settings() {
 
 	useEffect(() => {
 		setAnim({
-			styles: {
-				opacity: "100%",
-				transform: "translateY(0px)",
-			},
-			background: {
-				opacity: "100%",
-				transform: "translateY(0px)",
-			},
+			opacity: "100%",
+			transform: "translateY(0px)",
 		});
 	}, []);
 
@@ -43,7 +37,7 @@ export default function Settings() {
 		<div className="min-h-screen overflow-auto flex flex-col gap-16 justify-center items-center pb-52">
 			<div
 				className="flex flex-col gap-5 mt-10 transition-all duration-500 ease-out"
-				style={anim.styles}
+				style={anim}
 			>
 				<span className="text-center text-3xl text-text-50">Home Style</span>
 				<div className="flex flex-row gap-10">
@@ -69,7 +63,7 @@ export default function Settings() {
 			<div className="flex flex-row gap-20">
 				<div
 					className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150 mb-20"
-					style={anim.background}
+					style={anim}
 				>
 					<span className="text-center text-3xl text-text-50">
 						Home Background

@@ -2,7 +2,6 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "google.js",
   "type": "module",
   "keywords": [],
   "author": "posaidon",
@@ -10,6 +9,7 @@
   "packageManager": "pnpm@10.7.1",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pocketbase": "^0.26.0"
   }
 }

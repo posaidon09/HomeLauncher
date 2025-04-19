@@ -32,9 +32,12 @@ export default function Terminal() {
 			}
 			case "ls":
 			case "help": {
-				output = commands
-					.concat(sites.terminal.commands.map((command) => command.name))
-					.join(", ");
+				const cmds = sites.terminal.commands.map(
+					(command) => `${command.name}: ${command.description}`,
+				);
+				output = ["Commands:", ...cmds, "", "Websites:", ...commands].join(
+					"\n",
+				);
 				break;
 			}
 			case "google":
@@ -67,6 +70,27 @@ export default function Terminal() {
 				}));
 				break;
 			}
+			case "delete":
+			case "rm":
+				{
+					if (!args.length)
+						output = "Empty command. provide a website to remove";
+					else if (!commands.includes(args[0]))
+						output = `Error removing ${args[0]}, check if it exists`;
+					else {
+						setSites((prev) => ({
+							...prev,
+							terminal: {
+								...prev.terminal,
+								sites: prev.terminal.sites.filter(
+									(site) => site.name != args[0],
+								),
+							},
+						}));
+						output = `Removed ${args[0]} from website list`;
+					}
+				}
+				break;
 			case "visit":
 			case "goto": {
 				location.href = args[0];
@@ -125,7 +149,7 @@ export default function Terminal() {
 	}
 
 	function handleChange(e) {
-		e.preventDefault();
+		e?.preventDefault();
 		const actions = sites.terminal.commands;
 		const websites = sites.terminal.sites;
 		const commands = websites
@@ -214,13 +238,13 @@ export default function Terminal() {
 				style={anim}
 			>
 				<form
-					className="bg-black w-[1000px] min-h-[700px] max-h-[800px] rounded-xl p-4 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden"
+					className="bg-black w-[1000px] min-h-[700px] max-h-[800px] transition-transform duration-300 rounded-xl p-4 text-text-50 text-xl font-mono flex flex-row overflow-y-scroll overflow-x-hidden"
 					onSubmit={(event) => handleSubmit(event)}
 					id="terminal"
 				>
 					<div className="flex flex-col gap-4 w-full">
 						{messages.map((msg, key) => (
-							<div key={key} className="flex flex-col">
+							<div key={key} className="flex flex-col whitespace-pre-line">
 								<p className="text-gray-500">{msg.command}</p>
 								<p>{msg.output}</p>
 							</div>

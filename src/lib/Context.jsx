@@ -3,12 +3,13 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import commands from "./../assets/sites.json";
 export const context = createContext();
 export const ContextProvider = ({ children }) => {
-	const [page, setPage] = useLocalStorage("page", 1);
+	const [style, setStyle] = useLocalStorage("style", 1);
+	const [page, setPage] = useState(style);
 	const [messages, setMessages] = useState([]);
 	const [bg, setBg] = useLocalStorage("bg", "wind.png");
-	const [style, setStyle] = useLocalStorage("style", 1);
 	const [sites, setSites] = useLocalStorage("commands", commands);
 	const [newTab, setNewTab] = useLocalStorage("newtabs", "_self");
+	const [id, setId] = useLocalStorage("id", null);
 	return (
 		<context.Provider
 			value={{
@@ -24,6 +25,8 @@ export const ContextProvider = ({ children }) => {
 				setSites,
 				newTab,
 				setNewTab,
+				id,
+				setId,
 			}}
 		>
 			{children}
