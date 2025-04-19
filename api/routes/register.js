@@ -3,6 +3,8 @@ const pb = new PocketBase("https://posaidon.pockethost.io");
 
 export default async function handler(req, res) {
   try {
+    if (req.method !== "POST")
+      return res.status(405).json({ message: "not allowed" });
     const r = await fetch("https://home-launcher.vercel.app/sites.json");
     const sites = await r.json();
     console.log(sites);
