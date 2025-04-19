@@ -14,16 +14,14 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing parameters" });
 
     try {
-      if (await pb.collection("settings").getOne(id)) {
-        const prev = await pb.collection("settings").getOne(id);
-        const updated = await pb.collection("settings").update(id, {
-          ...prev,
-          [key]: value,
-        });
-        return res
-          .status(200)
-          .json({ message: "Successfully Updated settings", id: updated });
-      } else return res.status(404).json({ message: "ID not found" });
+      const prev = await pb.collection("settings").getOne(id);
+      const updated = await pb.collection("settings").update(id, {
+        ...prev,
+        [key]: value,
+      });
+      return res
+        .status(200)
+        .json({ message: "Successfully Updated settings", id: updated });
     } catch {
       return res.status(400).json({ error: "Something went wrong" });
     }
