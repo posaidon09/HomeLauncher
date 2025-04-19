@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     const sites = await r.json();
     const newEntry = await pb.collection("settings").create({
       style: 1,
-      bg: await fetch("https://home-launcher.vercel.app/store.png"),
+      bg: "store.png",
       newTab: "_self",
       columns: sites.columns,
       terminal: sites.terminal,
