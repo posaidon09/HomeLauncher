@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       });
       return res
         .status(200)
-        .json({ message: "Successfully updated settings", id: newEntry.id });
+        .json({ message: "Successfully Created settings", id: newEntry.id });
     }
   } catch {
     return res.status(400).json({ error: "Something went wrong" });

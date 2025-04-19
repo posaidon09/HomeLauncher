@@ -1,4 +1,4 @@
-export default {
+const sites = {
   columns: {
     Social: [
       {
@@ -142,3 +142,5 @@ export default {
     ],
   },
 };
+
+export default sites;
