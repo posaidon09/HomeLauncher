@@ -1,8 +1,9 @@
 import PocketBase from "pocketbase";
 const pb = new PocketBase("https://posaidon.pockethost.io");
 import formidable from "formidable";
+import fs from "fs";
+import FormData from "form-data"; // Node.js form-data
 
-// Disable Next.js body parser to allow formidable to handle it
 export const config = {
   api: {
     bodyParser: false,
@@ -25,7 +26,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Use a POST request" });
   }
 
-  const form = new formidable.IncomingForm();
+  const form = new formidable.IncomingForm({ keepExtensions: true });
 
   try {
     const { fields, files } = await new Promise((resolve, reject) => {
@@ -36,20 +37,17 @@ export default async function handler(req, res) {
     });
 
     const id = fields.id?.[0];
-    const bg = fields.image?.[0]; // This is the uploaded file (not a string)
+    const image = files.image?.[0];
 
-    if (!id || !bg) {
+    if (!id || !image) {
       return res.status(400).json({ error: "Missing image or id" });
     }
 
-    // If you're storing just the filename or path, get it from bg:
-    // const bgPath = bg.filepath;
+    // Prepare FormData for PocketBase
+    const formData = new FormData();
+    formData.append("background", fs.createReadStream(image.filepath));
 
-    const prev = await pb.collection("settings").getOne(id);
-    const updated = await pb.collection("settings").update(id, {
-      ...prev,
-      background: bg, // Or bgPath, depending on what you're storing
-    });
+    await pb.collection("settings").update(id, formData);
 
     return res.status(200).json({ message: "Successfully updated settings" });
   } catch (error) {
