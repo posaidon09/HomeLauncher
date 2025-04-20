@@ -5,14 +5,12 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  const id = req.query.id;
   if (req.method === "OPTIONS") {
     return res.status(200).end(); // Just send OK for OPTIONS
   }
+  const { k: key, v: value, id } = req.method === "POST" ? req.body : req.query;
   // POST METHOD
   if (req.method == "POST") {
-    const key = req.query.k;
-    const value = req.query.v;
     if (!key || !value)
       return res.status(400).json({ error: "Missing parameters" });
 
