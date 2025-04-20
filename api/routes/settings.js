@@ -20,11 +20,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing parameters" });
 
     try {
-      /*const prev = await pb.collection("settings").getOne(id);
+      const prev = await pb.collection("settings").getOne(id);
       const updated = await pb.collection("settings").update(id, {
         ...prev,
         [key]: value,
-      });*/
+      });
       return res.status(200).json({ message: "Successfully Updated settings" });
     } catch (error) {
       return res.status(400).json({ error });
