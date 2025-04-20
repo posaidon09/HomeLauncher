@@ -23,8 +23,8 @@ export default async function handler(req, res) {
       return res
         .status(200)
         .json({ message: "Successfully Updated settings", id: updated });
-    } catch {
-      return res.status(400).json({ error: "Something went wrong" });
+    } catch (error) {
+      return res.status(400).json({ error });
     }
     // GET METHOD
   } else if (req.method == "GET") {
