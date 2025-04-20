@@ -5,7 +5,6 @@ import { evaluate } from "mathjs";
 
 export default function Terminal() {
 	const { setMessages, messages, settings, api } = useContext(context);
-	const sites = settings;
 	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
@@ -20,8 +19,8 @@ export default function Terminal() {
 		const input = e.target.msg.value.trim().split(" ");
 		const command = input.shift();
 		const args = input;
-		const commands = sites.terminal.sites.map((site) => site.name);
-		const urls = sites.terminal.sites.map((site) => site.url);
+		const commands = settings.terminal.sites.map((site) => site.name);
+		const urls = settings.terminal.sites.map((site) => site.url);
 		let output;
 
 		switch (command) {
@@ -32,7 +31,7 @@ export default function Terminal() {
 			}
 			case "ls":
 			case "help": {
-				const cmds = sites.terminal.commands.map(
+				const cmds = settings.terminal.commands.map(
 					(command) => `${command.name}: ${command.description}`,
 				);
 				output = ["Commands:", ...cmds, "", "Websites:", ...commands].join(
@@ -82,7 +81,7 @@ export default function Terminal() {
 							...prev,
 							terminal: {
 								...prev.terminal,
-								sites: prev.terminal.sites.filter(
+								sites: prev.terminal.settings.filter(
 									(site) => site.name != args[0],
 								),
 							},
@@ -152,8 +151,8 @@ export default function Terminal() {
 
 	function handleChange(e) {
 		e?.preventDefault();
-		const actions = sites.terminal.commands;
-		const websites = sites.terminal.sites;
+		const actions = settings.terminal.commands;
+		const websites = settings.terminal.sites;
 		const commands = websites
 			.map((site) => site.name)
 			.concat(actions.map((action) => action.name))
@@ -175,7 +174,7 @@ export default function Terminal() {
 					setSuggest({ type: "command", value: res });
 				});
 			} else {
-				const tooltip = sites.terminal.commands.find(
+				const tooltip = settings.terminal.commands.find(
 					(action) => action.name === command || action.alias === command,
 				).description;
 				setSuggest({ type: "command", value: tooltip });

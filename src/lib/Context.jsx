@@ -7,25 +7,27 @@ export const ContextProvider = ({ children }) => {
 	const api = "https://home-launcher.vercel.app";
 	const [messages, setMessages] = useState([]);
 	const [settings, setSettings] = useLocalStorage("settings", null);
+	const [bg, setBg] = useState(null);
 	const [page, setPage] = useState(1);
 	useEffect(() => {
 		if (settings?.style) {
 			setPage(settings.style);
 		}
-	}, [settings]);
+	}, []);
 	const [id, setId] = useLocalStorage("id", null);
 	const set = async (key, value) => {
-		await axios.post("/settings", {
-			id,
-			k: key,
-			v: value,
-		});
-		const res = await axios.get(`${api}/settings`, {
-			params: {
+		await axios
+			.post(`${api}/settings`, {
 				id,
-			},
-		});
-		setSettings(res.data);
+				k: key,
+				v: value,
+			})
+			.then((res) => {
+				//const { background, ...safeSettings } = res.data;
+				//setBg(background);
+				//setSettings(safeSettings);
+				console.log(res.data);
+			});
 	};
 	return (
 		<context.Provider
@@ -40,6 +42,8 @@ export const ContextProvider = ({ children }) => {
 				setSettings,
 				set,
 				api,
+				bg,
+				setBg,
 			}}
 		>
 			{children}

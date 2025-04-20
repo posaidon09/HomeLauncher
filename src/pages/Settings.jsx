@@ -3,7 +3,7 @@ import { context } from "../lib/Context";
 import axios from "axios";
 
 export default function Settings() {
-	const { settings } = useContext(context);
+	const { settings, set } = useContext(context);
 	const [anim, setAnim] = useState({
 		styles: {
 			opacity: "0%",
@@ -19,13 +19,15 @@ export default function Settings() {
 	function handleChange(e) {
 		try {
 			const background = e.target.files[0];
-			const fr = new FileReader();
-			fr.readAsDataURL(background);
-			fr.onloadend = () => {
-				setBg(fr.result);
-				axios.post("/settings", { k: "background", v: fr.result });
-				setBgValid(true);
-			};
+			const form = new FormData();
+			form.append("image", background);
+			form.append("id", id);
+
+			axios.post(`${api}/settings`, form, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
 		} catch {
 			setBgValid(false);
 		}

@@ -4,6 +4,7 @@
     { "source": "/math", "destination": "/api/routes/math.js" },
     { "source": "/currency", "destination": "/api/routes/currency.js" },
     { "source": "/register", "destination": "/api/routes/register.js" },
-    { "source": "/settings", "destination": "/api/routes/settings.js" }
+    { "source": "/settings", "destination": "/api/routes/settings.js" },
+    { "source": "/background", "destination": "/api/routes/background.js" }
   ]
 }

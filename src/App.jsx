@@ -8,7 +8,7 @@ import Icon from "./components/Icon.jsx";
 import axios from "axios";
 
 function App() {
-	const { page, setPage, setId, id, setSettings, settings, api } =
+	const { page, setPage, setId, id, setSettings, settings, api, bg } =
 		useContext(context);
 	const [loaded, setLoaded] = useState(false);
 	function getPage() {
@@ -42,7 +42,7 @@ function App() {
 	return (
 		<div
 			className={`bg-cover bg-black transition-all duration-300`}
-			style={{ backgroundImage: `url("${settings?.background}")` }}
+			style={{ backgroundImage: `url("${bg}")` }}
 		>
 			<div
 				className="absolute left-10 top-10 cursor-pointer transition-transform duration-300 hover:scale-110"
