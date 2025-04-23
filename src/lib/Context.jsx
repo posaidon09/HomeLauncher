@@ -1,13 +1,14 @@
 import { createContext, useState } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import axios from "axios";
 import { useEffect } from "react";
+import pb from "./Pocketbase";
+
 export const context = createContext();
 export const ContextProvider = ({ children }) => {
-	const api = "https://home-launcher.vercel.app";
+	const api = "https://home-launcher.vercel.app/api";
 	const [messages, setMessages] = useState([]);
 	const [settings, setSettings] = useLocalStorage("settings", null);
-	const [bg, setBg] = useState(null);
+	const [bg, setBg] = useLocalStorage("background", null);
 	const [page, setPage] = useState(1);
 	useEffect(() => {
 		if (settings?.style) {
@@ -16,18 +17,18 @@ export const ContextProvider = ({ children }) => {
 	}, []);
 	const [id, setId] = useLocalStorage("id", null);
 	const set = async (key, value) => {
-		await axios
-			.post(`${api}/settings`, {
-				id,
-				k: key,
-				v: value,
-			})
-			.then((res) => {
-				//const { background, ...safeSettings } = res.data;
-				//setBg(background);
-				//setSettings(safeSettings);
-				console.log(res.data);
-			});
+		const prev = await pb.collection("settings").getOne(id);
+		const res =
+			value instanceof FormData
+				? await pb.collection("settings").update(id, value)
+				: await pb.collection("settings").update(id, {
+						...prev,
+						[key]: value,
+					});
+		const { background, ...updated } = res;
+		setSettings(updated);
+		const newBg = pb.files.getURL(prev, background);
+		setBg(newBg);
 	};
 	return (
 		<context.Provider
@@ -41,9 +42,9 @@ export const ContextProvider = ({ children }) => {
 				settings,
 				setSettings,
 				set,
-				api,
 				bg,
 				setBg,
+				api,
 			}}
 		>
 			{children}

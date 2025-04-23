@@ -1,34 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import { context } from "../lib/Context";
-import axios from "axios";
 
 export default function Settings() {
-	const { settings, set } = useContext(context);
+	const { settings, set, bg, setBg } = useContext(context);
 	const [anim, setAnim] = useState({
-		styles: {
-			opacity: "0%",
-			transform: "translateY(-50px)",
-		},
-		background: {
-			opacity: "0%",
-			transform: "translateY(-50px)",
-		},
+		opacity: "0%",
+		transform: "translateY(-50px)",
 	});
 	const [bgValid, setBgValid] = useState(false);
 
-	function handleChange(e) {
+	async function handleChange(e) {
 		try {
 			const background = e.target.files[0];
 			const form = new FormData();
-			form.append("image", background);
-			form.append("id", id);
-
-			axios.post(`${api}/settings`, form, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
-		} catch {
+			form.append("background", background);
+			set("background", form);
+			setBgValid(true);
+		} catch (err) {
+			console.error("Upload failed:", err);
 			setBgValid(false);
 		}
 	}
@@ -52,18 +41,14 @@ export default function Settings() {
 						src="terminal.png"
 						className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
 						style={{ borderColor: settings.style == 1 ? "green" : "#4845ed" }}
-						onClick={async () =>
-							await axios.post("/settings", { k: "style", v: 1 })
-						}
+						onClick={async () => await set("style", 1)}
 					/>
 					<div className="flex flex-col justify-center items-center">
 						<img
 							src="columns.png"
 							className={`w-[500px] h-[300px] rounded-xl border-[6px] transition-all duration-300 cursor-pointer hover:scale-105`}
 							style={{ borderColor: settings.style == 0 ? "green" : "#4845ed" }}
-							onClick={async () =>
-								await axios.post("/settings", { k: "style", v: 2 })
-							}
+							onClick={async () => await set("style", 0)}
 						/>
 						<span className="text-red-400 font-bold text-center">
 							deprecated
@@ -80,41 +65,41 @@ export default function Settings() {
 						Home Background
 					</span>
 					<img
-						src={settings.bg}
+						src={bg}
 						className="w-[500px] h-[300px] rounded-xl border-[6px] border-accent-700"
 					/>
 					<input
 						type="file"
-						placeholder="bwa"
 						onChange={(event) => handleChange(event)}
 						className="rounded-xl focus:outline-none bg-black text-text-50 p-2 border-2 transition-colors duration-300"
 						style={{ borderColor: bgValid ? "#34eb37" : "#494a49" }}
 					/>
 				</div>
-				<div className="flex flex-col items-center justify-center gap-5">
+				<div
+					className="flex flex-col items-center justify-center gap-5 transition-all duration-500 delay-150"
+					style={anim}
+				>
 					<span className="text-center text-3xl text-text-50 mb-10 -mt-20">
 						Url Destination
 					</span>
 					<div className="flex flex-row gap-20">
 						<div
-							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
 							style={{
-								borderColor: settings.newTab == "_self" ? "green" : "#4845ed",
+								borderColor:
+									settings.urlTarget == "_self" ? "green" : "#4845ed",
 							}}
-							onClick={async () =>
-								await axios.post("/settings", { k: "newTab", v: "_self" })
-							}
+							onClick={async () => await set("targetUrl", "_self")}
 						>
 							Current tab
 						</div>
 						<div
-							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duratio-300"
+							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
 							style={{
-								borderColor: settings.newTab == "_blank" ? "green" : "#4845ed",
+								borderColor:
+									settings.urlTarget == "_blank" ? "green" : "#4845ed",
 							}}
-							onClick={async () =>
-								await axios.post("/settings", { k: "newTab", v: "_blank" })
-							}
+							onClick={async () => await set("targetUrl", "_blank")}
 						>
 							New tab
 						</div>
