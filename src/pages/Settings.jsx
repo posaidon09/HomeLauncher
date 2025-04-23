@@ -30,9 +30,9 @@ export default function Settings() {
 	}, []);
 
 	return (
-		<div className="min-h-screen overflow-auto flex flex-col gap-5 justify-center items-center">
+		<div className="min-h-screen flex flex-col gap-5 justify-center items-center">
 			<div
-				className="flex flex-col gap-5 mt-10 transition-all duration-500 ease-out"
+				className="flex flex-col gap-5 mt-4 transition-all duration-500 ease-out"
 				style={anim}
 			>
 				<span className="text-center text-3xl text-text-50">Home Style</span>
@@ -58,7 +58,7 @@ export default function Settings() {
 			</div>
 			<div className="flex flex-row gap-20">
 				<div
-					className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150 mb-20"
+					className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150"
 					style={anim}
 				>
 					<span className="text-center text-3xl text-text-50">

@@ -30,6 +30,7 @@ function App() {
 				);
 
 				const res = await pb.collection("settings").create({
+					background: "",
 					style: 1,
 					urlTarget: "_self",
 					terminal: sites.terminal,

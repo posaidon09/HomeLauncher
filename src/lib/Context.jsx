@@ -5,7 +5,7 @@ import pb from "./Pocketbase";
 
 export const context = createContext();
 export const ContextProvider = ({ children }) => {
-	const api = "https://home-launcher.vercel.app/api";
+	const api = "https://home-launcher.vercel.app";
 	const [messages, setMessages] = useState([]);
 	const [settings, setSettings] = useLocalStorage("settings", null);
 	const [bg, setBg] = useLocalStorage("background", null);

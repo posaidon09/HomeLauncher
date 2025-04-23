@@ -91,8 +91,10 @@ export default function Terminal() {
 				}
 				break;*/
 			case "visit":
-			case "goto": {
-				location.href = args[0];
+			case "cd": {
+				location.href = args[0].startsWith("http")
+					? args[0]
+					: `https://${args[0]}`;
 				break;
 			}
 			default: {
@@ -235,7 +237,7 @@ export default function Terminal() {
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
 			<div
-				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] rounded-xl transition-all duration-500 ease-out"
+				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] shadow-black shadow-2xl rounded-xl transition-all duration-500 ease-out"
 				style={anim}
 			>
 				<form
