@@ -11,9 +11,9 @@ importers:
       '@uidotdev/usehooks':
         specifier: ^2.4.1
         version: 2.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@vercel/speed-insights':
-        specifier: ^1.2.0
-        version: 1.2.0(react@18.3.1)
+      '@vercel/analytics':
+        specifier: ^1.5.0
+        version: 1.5.0(react@18.3.1)
       axios:
         specifier: ^1.8.4
         version: 1.8.4
@@ -565,9 +565,10 @@ packages:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
 
-  '@vercel/speed-insights@1.2.0':
-    resolution: {integrity: sha512-y9GVzrUJ2xmgtQlzFP2KhVRoCglwfRQgjyfY607aU0hh0Un6d0OUyrJkjuAlsV18qR4zfoFPs/BiIj9YDS6Wzw==}
+  '@vercel/analytics@1.5.0':
+    resolution: {integrity: sha512-MYsBzfPki4gthY5HnYN7jgInhAZ7Ac1cYDoRWFomwGHWEX7odTEzbtg9kf/QSo7XEsEAqlQugA6gJ2WS2DEa3g==}
     peerDependencies:
+      '@remix-run/react': ^2
       '@sveltejs/kit': ^1 || ^2
       next: '>= 13'
       react: ^18 || ^19 || ^19.0.0-rc
@@ -575,6 +576,8 @@ packages:
       vue: ^3
       vue-router: ^4
     peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
       '@sveltejs/kit':
         optional: true
       next:
@@ -2312,7 +2315,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@vercel/speed-insights@1.2.0(react@18.3.1)':
+  '@vercel/analytics@1.5.0(react@18.3.1)':
     optionalDependencies:
       react: 18.3.1
 
