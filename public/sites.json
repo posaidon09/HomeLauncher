@@ -123,7 +123,7 @@
       },
       {
         "name": "create",
-        "alias": "cmd",
+        "alias": "touch",
         "description": "Adds a new command to your list",
         "args": "<command name> <url>"
       },

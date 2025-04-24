@@ -5,6 +5,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        "glow-ourple": "0 0 20px #c90cb6, 0 0 20px #c90c5b",
+      },
       animation: {
         bgRotate: "bgRotate 9s linear infinite",
       },

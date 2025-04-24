@@ -2,9 +2,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { context } from "../lib/Context";
 import "./../App.css";
 import { evaluate } from "mathjs";
+import pb from "../lib/Pocketbase";
 
 export default function Terminal() {
-	const { setMessages, messages, settings, api } = useContext(context);
+	const { setMessages, messages, setSettings, settings, api, id } =
+		useContext(context);
 	const [suggestion, setSuggest] = useState({ type: "site", value: "" });
 	const [intersection, setIntersect] = useState({ values: [], indexes: [] });
 	const inputRef = useRef(null);
@@ -56,17 +58,21 @@ export default function Terminal() {
 				}
 				break;
 			}
-			/*case "create":
-			case "cmd": {
+			case "create":
+			case "touch": {
+				if (!args.length) output = "Empty command. provide a website to add";
 				const name = args[0];
 				const url = args[1];
-				setSites((prev) => ({
+				const prev = await pb.collection("settings").getOne(id);
+				const updated = await pb.collection("settings").update(id, {
 					...prev,
 					terminal: {
 						...prev.terminal,
 						sites: [...prev.terminal.sites, { name, url }],
 					},
-				}));
+				});
+				setSettings(updated);
+				output = `Added ${args[0]} to bookmark list`;
 				break;
 			}
 			case "delete":
@@ -77,19 +83,22 @@ export default function Terminal() {
 					else if (!commands.includes(args[0]))
 						output = `Error removing ${args[0]}, check if it exists`;
 					else {
-						setSites((prev) => ({
+						const prev = await pb.collection("settings").getOne(id);
+						const updated = await pb.collection("settings").update(id, {
 							...prev,
 							terminal: {
 								...prev.terminal,
-								sites: prev.terminal.settings.filter(
+								sites: prev.terminal.sites.filter(
 									(site) => site.name != args[0],
 								),
 							},
-						}));
-						output = `Removed ${args[0]} from website list`;
+						});
+						setSettings(updated);
+						output = `Removed ${args[0]} from bookmark list`;
 					}
 				}
-				break;*/
+				break;
+
 			case "visit":
 			case "cd": {
 				location.href = args[0].startsWith("http")
@@ -237,7 +246,7 @@ export default function Terminal() {
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
 			<div
-				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] shadow-black shadow-2xl rounded-xl transition-all duration-500 ease-out"
+				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] shadow-glow-ourple rounded-xl transition-all duration-500 ease-out"
 				style={anim}
 			>
 				<form

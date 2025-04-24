@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { context } from "../lib/Context";
 
 export default function Settings() {
-	const { settings, set, bg, setBg } = useContext(context);
+	const { settings, set, bg } = useContext(context);
 	const [anim, setAnim] = useState({
 		opacity: "0%",
 		transform: "translateY(-50px)",
@@ -89,7 +89,7 @@ export default function Settings() {
 								borderColor:
 									settings.urlTarget == "_self" ? "green" : "#4845ed",
 							}}
-							onClick={async () => await set("targetUrl", "_self")}
+							onClick={async () => await set("urlTarget", "_self")}
 						>
 							Current tab
 						</div>
@@ -99,7 +99,7 @@ export default function Settings() {
 								borderColor:
 									settings.urlTarget == "_blank" ? "green" : "#4845ed",
 							}}
-							onClick={async () => await set("targetUrl", "_blank")}
+							onClick={async () => await set("urlTarget", "_blank")}
 						>
 							New tab
 						</div>
