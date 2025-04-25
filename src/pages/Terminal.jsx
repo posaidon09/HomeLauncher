@@ -34,11 +34,13 @@ export default function Terminal() {
 			case "ls":
 			case "help": {
 				const cmds = settings.terminal.commands.map(
-					(command) => `${command.name}: ${command.description}`,
+					(command) =>
+						`${command.name}, ${command.alias}: ${command.description}`,
 				);
-				output = ["Commands:", ...cmds, "", "Websites:", ...commands].join(
-					"\n",
+				const sites = settings.terminal.sites.map(
+					(site) => `${site.name} (${site.url})`,
 				);
+				output = ["Commands:", ...cmds, "", "Websites:", ...sites].join("\n");
 				break;
 			}
 			case "google":
@@ -246,7 +248,7 @@ export default function Terminal() {
 			onKeyDown={(event) => handleKeybinds(event)}
 		>
 			<div
-				className="bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] shadow-glow-ourple rounded-xl transition-all duration-500 ease-out"
+				className={`bg-gradient-to-br from-purple-500 to-pink-500 p-[5px] ${settings.terminalGlow ? "shadow-glow-ourple" : ""} rounded-xl transition-all duration-500 ease-out`}
 				style={anim}
 			>
 				<form

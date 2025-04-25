@@ -35,7 +35,7 @@ export default function Settings() {
 				className="flex flex-col gap-5 mt-4 transition-all duration-500 ease-out"
 				style={anim}
 			>
-				<span className="text-center text-3xl text-text-50">Home Style</span>
+				<span className="text-center text-3xl text-white">Home Style</span>
 				<div className="flex flex-row gap-10">
 					<img
 						src="terminal.png"
@@ -61,48 +61,88 @@ export default function Settings() {
 					className="flex flex-col items-center justify-center gap-5 transition-all ease-out duration-500 delay-150"
 					style={anim}
 				>
-					<span className="text-center text-3xl text-text-50">
+					<span className="text-center text-3xl text-white">
 						Home Background
 					</span>
 					<img
 						src={bg}
 						className="w-[500px] h-[300px] rounded-xl border-[6px] border-accent-700"
 					/>
-					<input
-						type="file"
-						onChange={(event) => handleChange(event)}
-						className="rounded-xl focus:outline-none bg-black text-text-50 p-2 border-2 transition-colors duration-300"
+					<label
+						className="inline-block cursor-pointer bg-black text-white p-2 rounded-xl border-2 transition-colors duration-300"
 						style={{ borderColor: bgValid ? "#34eb37" : "#494a49" }}
-					/>
+					>
+						Choose File
+						<input
+							type="file"
+							accept="image/png, image/jpeg"
+							onChange={handleChange}
+							className="hidden"
+						/>
+					</label>
 				</div>
-				<div
-					className="flex flex-col items-center justify-center gap-5 transition-all duration-500 delay-150"
-					style={anim}
-				>
-					<span className="text-center text-3xl text-text-50 mb-10 -mt-20">
-						Url Destination
-					</span>
-					<div className="flex flex-row gap-20">
-						<div
-							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
-							style={{
-								borderColor:
-									settings.urlTarget == "_self" ? "green" : "#4845ed",
-							}}
-							onClick={async () => await set("urlTarget", "_self")}
-						>
-							Current tab
+				<div className="flex flex-col mt-40 gap-10">
+					<div
+						className="flex flex-col items-center justify-center gap-5 transition-all duration-500 delay-150"
+						style={anim}
+					>
+						<span className="text-center text-3xl text-white mb-10 -mt-20">
+							Url Destination
+						</span>
+						<div className="flex flex-row gap-20 -mt-10">
+							<div
+								className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
+								style={{
+									borderColor:
+										settings.urlTarget == "_self" ? "green" : "#4845ed",
+								}}
+								onClick={async () => await set("urlTarget", "_self")}
+							>
+								Current tab
+							</div>
+							<div
+								className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
+								style={{
+									borderColor:
+										settings.urlTarget == "_blank" ? "green" : "#4845ed",
+								}}
+								onClick={async () => await set("urlTarget", "_blank")}
+							>
+								New tab
+							</div>
 						</div>
-						<div
-							className="bg-black p-2 border-[3px] rounded-xl text-white text-2xl cursor-pointer transition-all duration-300"
+					</div>
+					<div
+						className="flex flex-col items-center transition-all duration-500 delay-150"
+						style={anim}
+					>
+						<span className="text-3xl text-white text-center">
+							Terminal Glow
+						</span>
+
+						<label
+							className="inline-block cursor-pointer mt-4 w-16 bg-black text-white p-2 rounded-xl border-[3px] transition-colors duration-300"
 							style={{
-								borderColor:
-									settings.urlTarget == "_blank" ? "green" : "#4845ed",
+								borderColor: settings.terminalGlow ? "green" : "#494a49",
 							}}
-							onClick={async () => await set("urlTarget", "_blank")}
 						>
-							New tab
-						</div>
+							<div
+								className={`flex items-center transition-all duration-300`}
+								style={{
+									transform: settings.terminalGlow
+										? "translateX(70%)"
+										: "translateX(0%)",
+								}}
+							>
+								<div className="w-4 h-4 bg-gray-500 rounded-full"></div>
+							</div>
+							<input
+								type="checkbox"
+								checked={settings.terminalGlow}
+								onChange={() => set("terminalGlow", !settings.terminalGlow)}
+								className="hidden"
+							/>
+						</label>
 					</div>
 				</div>
 			</div>

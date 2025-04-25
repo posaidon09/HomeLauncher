@@ -30,7 +30,6 @@ function App() {
 				);
 
 				const res = await pb.collection("settings").create({
-					background: "",
 					style: 1,
 					urlTarget: "_self",
 					terminal: sites.terminal,
@@ -38,7 +37,6 @@ function App() {
 				});
 				setId(res.id);
 				setSettings(res);
-				console.log(res);
 			} else {
 				const res = await pb.collection("settings").getOne(id);
 				const bgRes = pb.files.getURL(res, res.background);
