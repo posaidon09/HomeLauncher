@@ -9,10 +9,6 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
-  if (req.method !== "GET") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
   const { text, from, to } = req.body;
   if (!text || !from || !to) {
     return res.status(400).json({ error: "Missing parameters" });

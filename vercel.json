@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/google", "destination": "/api/routes/google.js" },
     { "source": "/math", "destination": "/api/routes/math.js" },
-    { "source": "/currency", "destination": "/api/routes/currency.js" }
+    { "source": "/currency", "destination": "/api/routes/currency.js" },
+    { "source": "/translate", "destination": "/api/routes/translate.js" }
   ]
 }
